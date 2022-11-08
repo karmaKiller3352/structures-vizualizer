@@ -12,7 +12,7 @@ const GlobalStyles = createGlobalStyle`
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/structures-vizualizer/">
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/binary-tree" element={<BinaryTree />} />

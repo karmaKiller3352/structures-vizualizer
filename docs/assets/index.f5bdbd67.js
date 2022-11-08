@@ -205,4 +205,4 @@ In order to be iterable, non-array objects must have a [Symbol.iterator]() metho
     margin: 0;
     padding: 0;
   }
-`;function Dk(){return ot(Yx,{children:[ot(Qx,{children:[F(Dc,{path:"/",element:F(fO,{})}),F(Dc,{path:"/binary-tree",element:F($k,{})})]}),F(jk,{})]})}jl.createRoot(document.getElementById("root")).render(F(Dk,{}));
+`;function Dk(){return ot(Yx,{basename:"/structures-vizualizer/",children:[ot(Qx,{children:[F(Dc,{path:"/",element:F(fO,{})}),F(Dc,{path:"/binary-tree",element:F($k,{})})]}),F(jk,{})]})}jl.createRoot(document.getElementById("root")).render(F(Dk,{}));
