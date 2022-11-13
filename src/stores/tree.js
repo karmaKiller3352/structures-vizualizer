@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import BinaryTree from "features/BinaryTree/tree/Tree";
+import { traverse } from "../helpers";
 
 class TreeRenderer {
   tree = null;
@@ -15,12 +16,24 @@ class TreeRenderer {
     this.drawNode = this.drawNode.bind(this);
     this.initTree = this.initTree.bind(this);
     this.clearCanvas = this.clearCanvas.bind(this);
+    this.removeNode = this.removeNode.bind(this);
+    this.buildTree = this.buildTree.bind(this);
   }
 
   setPositions() {
     if (!this.tree || !this.tree.root) return [];
 
     const nodes = [];
+
+    traverse(this.tree.root, (node) => {
+      const level = node.parent?.level ? node.parent?.level + 1 : 1;
+
+      node.level = level;
+
+      if (level > this.tree.height) {
+        this.tree.height = level;
+      }
+    });
 
     let xCellAmount = 2 * Math.pow(2, this.tree.height) - 1;
 
@@ -32,7 +45,7 @@ class TreeRenderer {
 
     const rootXPosition = Math.round(xCellAmount / 2);
 
-    this.tree.iterate((node) => {
+    traverse(this.tree.root, (node) => {
       if (node.parent === null) {
         node.positionX = rootXPosition;
         node.positionY = 1;
@@ -72,7 +85,30 @@ class TreeRenderer {
     const node = this.tree.insert(value);
 
     this.drawTree();
+
     return node;
+  }
+
+  buildTree(nodeValues) {
+    this.clearCanvas();
+    const values = nodeValues.split(",").map(Number);
+
+    values.forEach((value) => {
+      this.addNode(value);
+    });
+
+    this.drawTree();
+  }
+
+  removeNode(value) {
+    const isNodeDeleted = this.tree.remove(value);
+
+    if (isNodeDeleted) {
+      this.canvas.clearCanvas();
+      this.drawTree();
+    }
+
+    return isNodeDeleted;
   }
 
   clearCanvas() {

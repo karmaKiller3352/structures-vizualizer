@@ -1,16 +1,5 @@
 import Node from "./Node";
 
-function traverse(node, callback) {
-  if (typeof callback === "function") {
-    callback(node);
-  }
-
-  const tree = { value: node.value };
-  tree.left = node.left === null ? null : traverse(node.left, callback);
-  tree.right = node.right === null ? null : traverse(node.right, callback);
-  return tree;
-}
-
 export default class BinaryTree {
   constructor() {
     this.root = null;
@@ -24,7 +13,7 @@ export default class BinaryTree {
     if (node.value < tree.value) {
       if (!tree.left) {
         node.parent = tree;
-        node.level = tree.level + 1;
+
         tree.left = node;
 
         return node;
@@ -34,7 +23,7 @@ export default class BinaryTree {
     } else {
       if (!tree.right) {
         node.parent = tree;
-        node.level = tree.level + 1;
+
         tree.right = node;
 
         return node;
@@ -64,12 +53,6 @@ export default class BinaryTree {
     return null;
   }
 
-  iterate(callback) {
-    if (this.root) {
-      traverse(this.root, callback);
-    }
-  }
-
   insert(value) {
     const hasValue = this.find(value);
 
@@ -79,20 +62,72 @@ export default class BinaryTree {
     this.length += 1;
 
     if (!this.root) {
-      newNode.level = 1;
       newNode.parent = null;
       this.root = newNode;
-      this.height = 1;
       return newNode;
     } else {
       const node = this._insertNodeToTree(this.root, newNode);
 
-      if (node.level > this.height) {
-        this.height = node.level;
-      }
-
       return node;
     }
+  }
+
+  findLastLeft(node) {
+    if (node.left === null) {
+      return node;
+    } else return this.findLastLeft(node.left);
+  }
+
+  remove(value) {
+    if (!this.root) {
+      return false;
+    }
+
+    const node = this.find(value);
+
+    if (!node) {
+      return false;
+    }
+
+    const parent = node?.parent;
+
+    if (node.left === null && node.right === null) {
+      if (value > parent.value) {
+        parent.right = null;
+      } else {
+        parent.left = null;
+      }
+    } else if (node.right === null) {
+      if (value > parent.value) {
+        parent.right = node.left;
+      } else {
+        parent.left = node.left;
+      }
+      node.left.parent = parent;
+    } else if (node.left === null) {
+      if (value > parent.value) {
+        parent.right = node.right;
+      } else {
+        parent.left = node.right;
+      }
+      node.right.parent = parent;
+    } else {
+      const lastLeftNode = this.findLastLeft(node.right);
+      node.value = lastLeftNode.value;
+
+      if (lastLeftNode.value < lastLeftNode.parent.value) {
+        lastLeftNode.parent.left = lastLeftNode.right;
+      } else {
+        lastLeftNode.parent.right = lastLeftNode.right;
+      }
+      if (lastLeftNode.right !== null) {
+        lastLeftNode.right.parent = lastLeftNode.parent;
+      }
+    }
+
+    this.length--;
+
+    return true;
   }
 
   reset() {

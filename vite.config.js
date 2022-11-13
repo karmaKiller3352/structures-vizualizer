@@ -19,6 +19,10 @@ export default defineConfig({
         replacement: path.resolve(__dirname, "src/containers"),
       },
       { find: "stores", replacement: path.resolve(__dirname, "src/stores") },
+      {
+        find: "components",
+        replacement: path.resolve(__dirname, "src/components"),
+      },
     ],
   },
 });

@@ -12,21 +12,3 @@ export default class Queue {
     return this.arr.length == 0;
   }
 }
-
-export function traverseBF(root, callback) {
-  let nodeQueue = new Queue();
-  nodeQueue.enqueue(root);
-
-  while (!nodeQueue.isEmpty()) {
-    let currentNode = nodeQueue.dequeue();
-    callback(currentNode);
-
-    if (currentNode.left) {
-      nodeQueue.enqueue(currentNode.left);
-    }
-
-    if (currentNode.right) {
-      nodeQueue.enqueue(currentNode.right);
-    }
-  }
-}
