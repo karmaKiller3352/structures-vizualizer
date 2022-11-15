@@ -1,6 +1,6 @@
-import { Input, InputNumber } from "antd";
-import { useCallback, useState } from "react";
+import { Input } from "antd";
 import styled from "styled-components";
+import { useCallback, useState } from "react";
 import AfterInputAddon from "../AfterInputAddon";
 
 const FieldWrapper = styled.div`

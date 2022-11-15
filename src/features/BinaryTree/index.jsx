@@ -15,14 +15,14 @@ const Sidebar = observer(() => {
       <InputField
         type="number"
         afterType="add"
-        regX={/[^0-9]/gm}
+        regX={/[^0-9,-]/gm}
         placeholder="Add node"
         onAction={tree.addNode}
       />
       <InputField
         type="number"
         afterType="minus"
-        regX={/[^0-9]/gm}
+        regX={/[^0-9,-]/gm}
         placeholder="Remove node"
         onAction={tree.removeNode}
       />

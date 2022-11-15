@@ -1,6 +1,6 @@
-import { Input, InputNumber } from "antd";
 import styled from "styled-components";
-import { useState, useCallback, useEffect, useLayoutEffect } from "react";
+import { Input, InputNumber } from "antd";
+import { useState, useCallback } from "react";
 import AfterInputAddon from "../AfterInputAddon";
 
 const InputWrapper = styled.div`
@@ -51,20 +51,10 @@ const InputField = ({ afterType, onAction, placeholder, type, regX }) => {
   const keyHandler = useCallback(
     (e) => {
       if (e.keyCode === 13) {
-        if (String(value).match(regX)) {
-          setError(true);
-          return;
-        }
-        const success = onAction(value);
-
-        if (success) {
-          setValue("");
-        } else {
-          setError(true);
-        }
+        actionHandler();
       }
     },
-    [value, regX]
+    [actionHandler]
   );
 
   const InputComponent = type === "number" ? InputNumber : Input;
